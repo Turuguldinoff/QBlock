@@ -30,14 +30,14 @@ function bg(){
 let len  = 30
 let xPol = 35
 let yPol = height + 15
-let prov = true 
-
+let j=0
 
 class Block{
     constructor(len, xPol, yPol){
         this.len  = len
         this.xPol = xPol
         this.yPol = yPol
+        this.prov = true 
     } 
 
     b(){
@@ -48,34 +48,45 @@ class Block{
     p(){
         move()
     }
-    
 }
+    let block = []
+for(i = 0; i < 10; i++)
+    block[i] = new Block(len, xPol, yPol)
+
+function play(){
+    bg()
+    for(i = 0; i <10; i++){
+        block[i].b()
+    }
+    document.addEventListener('mousedown', block[j].p)
+}
+
 
 
 function move(){
     document.addEventListener('mousemove', click)
 
     function click(event){
-        if(prov){
-        xPol = event.layerX - 30
-        yPol = event.layerY - 30
-        len = 60
-        if(xPol > 16 && xPol < 496 && yPol > 16 && yPol < 496){ 
-            xPol = (xPol < 76) ? 16:
-                (xPol < 136) ? 76 :
-                (xPol < 196) ? 136:
-                (xPol < 256) ? 196:
-                (xPol < 316) ? 256:
-                (xPol < 376) ? 316:
-                (xPol < 436) ? 376:
+        if(block[j].prov){
+            block[j].xPol = event.layerX  
+            block[j].yPol = event.layerY 
+            block[j].len = 60
+        if(block[j].xPol > 16 && block[j].xPol < 496 && block[j].yPol > 16 && block[j].yPol < 496){
+            block[j].xPol = (block[j].xPol < 76) ? 16:
+                (block[j].xPol < 136) ? 76:
+                (block[j].xPol < 196) ? 136:
+                (block[j].xPol < 256) ? 196:
+                (block[j].xPol < 316) ? 256:
+                (block[j].xPol < 376) ? 316:
+                (block[j].xPol < 436) ? 376:
                 436
-            yPol = (yPol < 76) ? 16:
-                (yPol < 136) ? 76 :
-                (yPol < 196) ? 136:
-                (yPol < 256) ? 196:
-                (yPol < 316) ? 256:
-                (yPol < 376) ? 316:
-                (yPol < 436) ? 376:
+            block[j].yPol = (block[j].yPol < 76) ? 16:
+                (block[j].yPol < 136) ? 76:
+                (block[j].yPol < 196) ? 136:
+                (block[j].yPol < 256) ? 196:
+                (block[j].yPol < 316) ? 256:
+                (block[j].yPol < 376) ? 316:
+                (block[j].yPol < 436) ? 376:
                 436
             }
         }
@@ -84,23 +95,16 @@ function move(){
     document.addEventListener('mouseup', function() {
         document.removeEventListener('mousemove', click)
         if(event.layerY > height)
-            len = 30
-        if(xPol > 16 && xPol < 496 && yPol > 16 && yPol < 496)       
-            prov = false
+            block[j].len = 30
+        if(block[j].xPol >= 16 && block[j].xPol <= 496 && block[j].yPol >= 16 && block[j].yPol <= 496){ 
+            block[j].prov = false
+            block[j].b()
+            j++
+        }
 
     })
 
 
 }
-
-
-
-function play(){
-    let block = new Block(len, xPol, yPol)
-    bg()
-    block.b(len, xPol, yPol)
-    document.addEventListener('mousedown', block.p)
-}
-
 
 let p = setInterval(play,0)
